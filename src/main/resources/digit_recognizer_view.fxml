@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="edu.farmingdale.dl4j_demo.DigitRecognizerController"
+      spacing="10" alignment="CENTER" styleClass="root">
+    <Canvas fx:id="canvas" width="280" height="280" styleClass="canvas"/>
+    <Button fx:id="clearBtn" text="Clear" onAction="#handleClear" styleClass="button"/>
+    <Button fx:id="recognizeBtn" text="Recognize" onAction="#handleRecognize" styleClass="button"/> <!-- Added this line -->
+    <Label fx:id="resultLabel" text="Draw a digit" styleClass="result-label"/>
+</VBox>

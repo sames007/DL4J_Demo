@@ -11,13 +11,17 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <junit.version>5.10.2</junit.version>
-        <javafx.version>23.0.2</javafx.version>
+        <!-- Updated JavaFX version to an available Early Access version for Java 23 -->
+        <!-- You can also use a stable version like 22.0.1 if preferred, -->
+        <!-- but then consider aligning Java compiler target if not strictly needing Java 23. -->
+        <javafx.version>23-ea+22</javafx.version>
         <dl4j.version>1.0.0-M2.1</dl4j.version>
+        <!-- Updated SLF4J to a known stable version -->
+        <slf4j.version>2.0.13</slf4j.version>
     </properties>
 
     <dependencies>
-        <!-- Remove or comment out the existing JavaFX dependencies and replace with these -->
+        <!-- JavaFX Dependencies -->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
@@ -40,24 +44,10 @@
             <artifactId>deeplearning4j-core</artifactId>
             <version>${dl4j.version}</version>
         </dependency>
+        <!-- deeplearning4j-ui pulls in ui-model, ui-components, and vertx transitively -->
         <dependency>
             <groupId>org.deeplearning4j</groupId>
             <artifactId>deeplearning4j-ui</artifactId>
-            <version>${dl4j.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.deeplearning4j</groupId>
-            <artifactId>deeplearning4j-ui-components</artifactId>
-            <version>${dl4j.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.deeplearning4j</groupId>
-            <artifactId>deeplearning4j-ui-model</artifactId>
-            <version>${dl4j.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.deeplearning4j</groupId>
-            <artifactId>deeplearning4j-vertx</artifactId>
             <version>${dl4j.version}</version>
         </dependency>
 
@@ -84,12 +74,12 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>2.0.17</version>
+            <version>${slf4j.version}</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
-            <version>2.0.17</version>
+            <version>${slf4j.version}</version>
         </dependency>
     </dependencies>
 
@@ -100,6 +90,7 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.13.0</version>
                 <configuration>
+                    <!-- Ensure you have JDK 23 installed and configured for this -->
                     <source>23</source>
                     <target>23</target>
                 </configuration>
