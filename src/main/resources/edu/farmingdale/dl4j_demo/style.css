@@ -1,0 +1,25 @@
+.root {
+    -fx-background-color: #f4f4f8;
+    -fx-padding: 20;
+}
+
+.canvas {
+    -fx-effect: dropshadow(one-pass-box, rgba(0,0,0,0.2), 8, 0, 0, 2);
+}
+
+.button {
+    -fx-font-size: 14px;
+    -fx-padding: 8px 16px;
+    -fx-background-radius: 8px;
+    -fx-background-color: linear-gradient(#6a8cff, #3f5fff);
+    -fx-text-fill: white;
+}
+
+.button:hover {
+    -fx-background-color: linear-gradient(#7b9eff, #4f6fff);
+}
+
+.result-label {
+    -fx-font-size: 24px;
+    -fx-text-fill: #333;
+}
