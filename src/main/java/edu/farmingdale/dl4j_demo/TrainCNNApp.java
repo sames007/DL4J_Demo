@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.fxml.FXMLLoader;
 
 /**
  * JavaFX application for training a Convolutional Neural Network (CNN)
@@ -16,7 +17,7 @@ import javafx.stage.Stage;
  */
 public class TrainCNNApp extends Application {
     private TextArea logArea;         // Area to display training log messages
-    private Spinner<Integer> epochSpinner; // Spinner to select number of training epochs
+    private Spinner<Integer> epochSpinner; // Spinner to select the number of training epochs
     private Button trainButton;       // Button to trigger training
 
     /**
@@ -33,7 +34,18 @@ public class TrainCNNApp extends Application {
      */
     @Override
     public void start(Stage stage) {
-        // Setup the log output area
+        // Create the training window
+        Stage trainingStage = createTrainingStage();
+        trainingStage.show();
+
+        // Create the digit recognizer window
+        createDigitRecognizerStage();
+    }
+
+    private Stage createTrainingStage() {
+        Stage stage = new Stage();
+        
+        // Set Up the log output area
         logArea = new TextArea();
         logArea.setEditable(false);
         logArea.setWrapText(true);
@@ -44,7 +56,7 @@ public class TrainCNNApp extends Application {
 
         // Button to begin training
         trainButton = new Button("Start Training");
-        trainButton.setOnAction(e -> startTraining());
+        trainButton.setOnAction(_ -> startTraining());
 
         // Layout for the UI components
         VBox root = new VBox(10,
@@ -57,8 +69,30 @@ public class TrainCNNApp extends Application {
 
         // Set up and show the stage
         stage.setScene(new Scene(root, 500, 600));
-        stage.setTitle("Train CNN Model - JavaFX UI");
-        stage.show();
+        stage.setTitle("Train CNN Model");
+        return stage;
+    }
+
+    private void createDigitRecognizerStage() {
+        try {
+            Stage digitStage = new Stage();
+            FXMLLoader fxmlLoader = new FXMLLoader(TrainCNNApp.class.getResource("digit_recognizer_view.fxml"));
+            Scene scene = new Scene(fxmlLoader.load());
+            digitStage.setTitle("Digit Recognizer");
+            digitStage.setScene(scene);
+            digitStage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            showError(e.getMessage());
+        }
+    }
+
+    private void showError(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error loading digit recognizer");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
     /**
@@ -75,7 +109,7 @@ public class TrainCNNApp extends Application {
         Task<Void> trainingTask = new Task<>() {
             @Override
             protected Void call() throws Exception {
-                // Call the static training method and update log via callback
+                // Call the static training method and update the log via callback
                 TrainCNN.runTraining(epochs, line -> updateMessage(line + "\n"));
                 return null;
             }
@@ -85,13 +119,13 @@ public class TrainCNNApp extends Application {
         logArea.textProperty().bind(trainingTask.messageProperty());
 
         // Re-enable the button after training finishes
-        trainingTask.setOnSucceeded(e -> {
+        trainingTask.setOnSucceeded(_ -> {
             logArea.appendText("\n✅ Training complete.\n");
             trainButton.setDisable(false);
         });
 
         // Handle exceptions that occur during training
-        trainingTask.setOnFailed(e -> {
+        trainingTask.setOnFailed(_ -> {
             logArea.appendText("\n❌ Training failed: "
                     + trainingTask.getException().getMessage() + "\n");
             trainButton.setDisable(false);

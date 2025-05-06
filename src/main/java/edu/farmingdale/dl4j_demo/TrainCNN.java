@@ -45,7 +45,6 @@ import org.slf4j.LoggerFactory;
 
 /**
  * TrainCNN
- *
  * Configures and trains a simple Convolutional Neural Network on
  * the MNIST PNG dataset, logging progress via a provided callback.
  */
@@ -132,7 +131,7 @@ public class TrainCNN {
         MultiLayerNetwork model = new MultiLayerNetwork(conf);
         model.init();
 
-        // Start UI server to visualize training metrics in browser
+        // Start the UI server to visualize training metrics in the browser
         UIServer uiServer = UIServer.getInstance();
         StatsStorage statsStorage = new InMemoryStatsStorage();
         uiServer.attach(statsStorage);
@@ -140,13 +139,13 @@ public class TrainCNN {
         // Attach listeners for both stats and score output every 100 iterations
         model.setListeners(new StatsListener(statsStorage), new ScoreIterationListener(100));
 
-        // Publish start message
+        // Publish the start message
         logConsumer.accept("----- TRAINING START -----");
 
         // Training loop: fit, evaluate, log accuracy
         for (int i = 0; i < epochs; i++) {
-            model.fit(trainIter);         // Train on entire training set
-            trainIter.reset();            // Reset iterator for next epoch
+            model.fit(trainIter);         // Train on the entire training set
+            trainIter.reset();            // Reset iterator for the next epoch
 
             Evaluation eval = model.evaluate(testIter);
             String line = String.format("Epoch %d complete. Accuracy: %.4f",
